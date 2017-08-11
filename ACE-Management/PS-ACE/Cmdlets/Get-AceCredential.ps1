@@ -9,7 +9,11 @@ function Get-AceCredential
         
         [Parameter(Mandatory)]
         [string]
-        $ApiKey
+        $ApiKey,
+
+        [Parameter(Mandatory)]
+        [string]
+        $Thumbprint
     )
     
     try

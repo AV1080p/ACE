@@ -4,20 +4,24 @@ function Start-AceSweep
     param
     (
         [Parameter(Mandatory)]
-        [Guid[]]
-        $ComputerId,
-
-        [Parameter(Mandatory)]
-        [Guid]
-        $ScriptId,
-
-        [Parameter(Mandatory)]
         [string]
         $Uri,
 
         [Parameter(Mandatory)]
         [string]
-        $ApiKey
+        $ApiKey,
+
+        [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+
+        [Parameter(Mandatory)]
+        [Guid[]]
+        $ComputerId,
+
+        [Parameter(Mandatory)]
+        [Guid]
+        $ScriptId      
     )
 
     $body = @{
@@ -28,7 +32,7 @@ function Start-AceSweep
 
     try
     {
-        $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/sweep" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -CheckCert
+        $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/sweep" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -Thumbprint $Thumbprint
         Write-Output ($result | ConvertFrom-Json)   
     }
     catch

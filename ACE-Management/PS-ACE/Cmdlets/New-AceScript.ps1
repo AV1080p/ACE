@@ -5,6 +5,18 @@ function New-AceScript
     (
         [Parameter(Mandatory)]
         [string]
+        $Uri,
+
+        [Parameter(Mandatory)]
+        [string]
+        $ApiKey,
+
+        [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+
+        [Parameter(Mandatory)]
+        [string]
         $Path,
 
         [Parameter(Mandatory)]
@@ -23,15 +35,7 @@ function New-AceScript
         [Parameter(Mandatory = $true)]
         [ValidateSet('file','siem')]
         [string]
-        $OutputType,
-
-        [Parameter(Mandatory)]
-        [string]
-        $Uri,
-
-        [Parameter(Mandatory)]
-        [string]
-        $ApiKey
+        $OutputType
     )
 
     $body = @{
@@ -44,7 +48,7 @@ function New-AceScript
 
     try 
     {
-        $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/script" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -CheckCert
+        $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/script" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -Thumbprint $Thumbprint
         Write-Output ($result | ConvertFrom-Json)        
     }
     catch 

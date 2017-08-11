@@ -12,13 +12,17 @@ function Remove-AceScript
         $ApiKey,
 
         [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+
+        [Parameter(Mandatory)]
         [Guid]
         $Id
     )
 
     try
     {
-        $result = Invoke-AceWebRequest -Method Get -Uri "$($Uri)/ace/script/delete/$($Id)" -ApiKey $ApiKey -CheckCert
+        $result = Invoke-AceWebRequest -Method Get -Uri "$($Uri)/ace/script/delete/$($Id)" -ApiKey $ApiKey -Thumbprint $Thumbprint
         Write-Output ($result | ConvertFrom-Json)   
     }
     catch

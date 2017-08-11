@@ -20,6 +20,10 @@ function New-AceScheduledScan
         $ApiKey,
 
         [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+
+        [Parameter(Mandatory)]
         [Int32]
         $Hour,
 
@@ -46,6 +50,6 @@ function New-AceScheduledScan
         RepeatCount = $RepeatCount
     }
 
-    $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/schedule" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -CheckCert
+    $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/schedule" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -Thumbprint $Thumbprint
     Write-Output ($result | ConvertFrom-Json)        
 }

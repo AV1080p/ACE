@@ -12,6 +12,10 @@ function Update-AceCredential
         $ApiKey,
 
         [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+        
+        [Parameter(Mandatory)]
         [Guid]
         $CredentialId,
 
@@ -26,7 +30,7 @@ function Update-AceCredential
         Password = $Credential.GetNetworkCredential().Password
     }
 
-    $result = Invoke-AceWebRequest -Method Put -Uri "$($Uri)/ace/credential/$($CredentialId)" -Body (ConvertTo-Json $body) -ContentType application/json -ApiKey $ApiKey -CheckCert
+    $result = Invoke-AceWebRequest -Method Put -Uri "$($Uri)/ace/credential/$($CredentialId)" -Body (ConvertTo-Json $body) -ContentType application/json -ApiKey $ApiKey -Thumbprint $Thumbprint
 
     Write-Output ($result.Content | ConvertFrom-Json)
 }

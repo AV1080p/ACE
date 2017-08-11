@@ -11,6 +11,10 @@ function Get-AceSweepResult
         [string]
         $ApiKey,
 
+        [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+
         [Parameter()]
         [Guid]
         $Id
@@ -18,7 +22,7 @@ function Get-AceSweepResult
 
     try
     {
-        $result = Invoke-AceWebRequest -Method Get -Uri "$($Uri)/ace/scan/$($Id)" -ApiKey $ApiKey -CheckCert -ErrorAction Stop
+        $result = Invoke-AceWebRequest -Method Get -Uri "$($Uri)/ace/scan/$($Id)" -ApiKey $ApiKey -Thumbprint $Thumbprint -ErrorAction Stop
         Write-Output ($result | ConvertFrom-Json)        
     }
     catch

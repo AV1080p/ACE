@@ -9,12 +9,16 @@ function Get-AceSchedule
 
         [Parameter(Mandatory)]
         [string]
-        $ApiKey
+        $ApiKey,
+
+        [Parameter(Mandatory)]
+        [string]
+        $Thumbprint        
     )
 
     try
     {
-        $result = Invoke-AceWebRequest -Method Get -Uri "$($Uri)/ace/schedule" -ApiKey $ApiKey -CheckCert -ErrorAction Stop
+        $result = Invoke-AceWebRequest -Method Get -Uri "$($Uri)/ace/schedule" -ApiKey $ApiKey -Thumbprint $Thumbprint -ErrorAction Stop
         Write-Output ($result | ConvertFrom-Json)        
     }
     catch

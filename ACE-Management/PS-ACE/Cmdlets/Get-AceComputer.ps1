@@ -11,6 +11,10 @@ function Get-AceComputer
         [string]
         $ApiKey,
 
+        [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+
         [Parameter()]
         [Guid]
         $Id
@@ -27,7 +31,7 @@ function Get-AceComputer
     
     try
     {
-        $result = Invoke-AceWebRequest -Method Get -Uri $Url -ApiKey $ApiKey -CheckCert -ErrorAction Stop
+        $result = Invoke-AceWebRequest -Method Get -Uri $Url -ApiKey $ApiKey -Thumbprint $Thumbprint -ErrorAction Stop
         Write-Output ($result | ConvertFrom-Json)
     }
     catch

@@ -10,6 +10,10 @@ function Invoke-AceWebRequest
         [string]
         $ApiKey,
 
+        [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+
         [Parameter()]
         [ValidateSet('Delete','Get','Post','Put')]
         [string]
@@ -21,11 +25,7 @@ function Invoke-AceWebRequest
 
         [Parameter()]
         [string]
-        $Body,
-
-        [Parameter()]
-        [switch]
-        $CheckCert
+        $Body
     )
     Try
     {
@@ -38,34 +38,29 @@ function Invoke-AceWebRequest
         $WebRequest.Method = $Method
         $WebRequest.ContentType = $ContentType
 
-        if($CheckCert)
-        {
-            # Set the callback to check for null certificate and thumbprint matching.
-            $WebRequest.ServerCertificateValidationCallback = {
-        
-                $Thumbprint = '4A076C63FF5CA0D7EABF467C9C2F7274FF7776B1'
-        
-                $certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]$args[1]
-                
-                if ($certificate -eq $null)
-                {
-                    $Host.UI.WriteWarningLine("Null certificate.")
-                    return $true
-                }
-        
-                if ($certificate.Thumbprint -eq $ThumbPrint)
-                {
-                    return $true
-                }
-                else
-                {
-                    $Host.UI.WriteWarningLine("Thumbprint mismatch. Certificate thumbprint $($certificate.Thumbprint)")
-                    $Host.UI.WriteWarningLine("   Expected thumbprint: $($Thumbprint)")
-                    $Host.UI.WriteWarningLine("   Received thumbprint: $($certificate.Thumbprint)")
-                }
-        
-                return $false
+        # Set the callback to check for null certificate and thumbprint matching.
+        $WebRequest.ServerCertificateValidationCallback = {
+            
+            $certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]$args[1]
+            
+            if ($certificate -eq $null)
+            {
+                $Host.UI.WriteWarningLine("Null certificate.")
+                return $true
             }
+    
+            if ($certificate.Thumbprint -eq $Thumbprint)
+            {
+                return $true
+            }
+            else
+            {
+                $Host.UI.WriteWarningLine("Thumbprint mismatch. Certificate thumbprint $($certificate.Thumbprint)")
+                $Host.UI.WriteWarningLine("   Expected thumbprint: $($Thumbprint)")
+                $Host.UI.WriteWarningLine("   Received thumbprint: $($certificate.Thumbprint)")
+            }
+    
+            return $false
         }
 
         if($PSBoundParameters.ContainsKey('Body'))

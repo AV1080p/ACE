@@ -13,6 +13,10 @@ function Update-AceUser
 
         [Parameter(Mandatory)]
         [string]
+        $Thumbprint,
+
+        [Parameter(Mandatory)]
+        [string]
         $UserId,
 
         [Parameter(Mandatory)]
@@ -39,6 +43,6 @@ function Update-AceUser
         IsAdmin = $IsAdmin
     }
 
-    $result = Invoke-AceWebRequest -Method Put -Uri "$($Uri)/ace/user/$($UserId)" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -CheckCert
+    $result = Invoke-AceWebRequest -Method Put -Uri "$($Uri)/ace/user/$($UserId)" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -Thumbprint $Thumbprint
     Write-Output ($result | ConvertFrom-Json)
 }

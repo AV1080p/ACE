@@ -12,6 +12,10 @@ function New-AceCredential
         $ApiKey,
 
         [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,        
+
+        [Parameter(Mandatory)]
         [Management.Automation.PSCredential]
         [Management.Automation.CredentialAttribute()]
         $Credential
@@ -24,7 +28,7 @@ function New-AceCredential
 
     try 
     {
-        $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/credential" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -CheckCert
+        $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/credential" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -Thumbprint $Thumbprint
         Write-Output ($result | ConvertFrom-Json)    
     }
     catch 

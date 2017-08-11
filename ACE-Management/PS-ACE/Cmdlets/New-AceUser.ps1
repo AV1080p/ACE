@@ -13,6 +13,10 @@ function New-AceUser
 
         [Parameter(Mandatory)]
         [string]
+        $Thumbprint,
+
+        [Parameter(Mandatory)]
+        [string]
         $UserName,
         
         [Parameter()]
@@ -37,7 +41,7 @@ function New-AceUser
 
     try 
     {
-        $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/user" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -CheckCert
+        $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/user" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -Thumbprint $Thumbprint
         Write-Output ($result | ConvertFrom-Json)        
     }
     catch 

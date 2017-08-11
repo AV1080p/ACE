@@ -12,6 +12,10 @@ function Start-AceDiscovery
         $ApiKey,
         
         [Parameter(Mandatory)]
+        [string]
+        $Thumbprint,
+
+        [Parameter(Mandatory)]
         [Guid]
         $CredentialId,
 
@@ -33,7 +37,7 @@ function Start-AceDiscovery
                 CredentialId = $CredentialId
             }
             
-            $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/discover/computerlist" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -CheckCert
+            $result = Invoke-AceWebRequest -Method Post -Uri "$($Uri)/ace/discover/computerlist" -Body (ConvertTo-Json $body -Compress) -ContentType application/json -ApiKey $ApiKey -Thumbprint $Thumbprint
         }
         Domain
         {
