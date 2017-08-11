@@ -43,7 +43,7 @@ function Invoke-AceWebRequest
             # Set the callback to check for null certificate and thumbprint matching.
             $WebRequest.ServerCertificateValidationCallback = {
         
-                $ThumbPrint = 'BEA586E6FA3984D0B2935E10007352E092C37103'
+                $Thumbprint = '4A076C63FF5CA0D7EABF467C9C2F7274FF7776B1'
         
                 $certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]$args[1]
                 
@@ -60,6 +60,8 @@ function Invoke-AceWebRequest
                 else
                 {
                     $Host.UI.WriteWarningLine("Thumbprint mismatch. Certificate thumbprint $($certificate.Thumbprint)")
+                    $Host.UI.WriteWarningLine("   Expected thumbprint: $($Thumbprint)")
+                    $Host.UI.WriteWarningLine("   Received thumbprint: $($certificate.Thumbprint)")
                 }
         
                 return $false
