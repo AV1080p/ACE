@@ -10,4 +10,4 @@ ADD ace.py /root/ace.py
 CMD \
     /usr/local/bin/docker-entrypoint.sh rabbitmq-server & \
     sleep 30 \
-    && python /root/ace.py -s 127.0.0.1 -u $RABBITMQ_DEFAULT_USER -p $RABBITMQ_DEFAULT_PASS
+    && /root/ace-entrypoint.sh
